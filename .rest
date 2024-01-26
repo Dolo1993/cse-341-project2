@@ -1,0 +1,95 @@
+/* This file is for testing purpose*/
+
+### GET All Employees
+GET http://localhost:3000/api/employees
+
+### GET Single Employee
+GET http://localhost:3000/api/employees/
+
+### POST Employee
+POST http://localhost:3000/api/employees
+Content-Type: application/json
+
+# {
+#   "firstName": "John",
+#   "lastName": "Doe",
+#   "position": "Developer",
+#   "department": "IT",
+#   "salary": 70000, 
+#   "hireDate": "January 1, 1987",
+#   "email": "john.doe@example.com",
+#   "phoneNumber": "123-456-7890"
+# }
+
+### PUT Employee
+PUT http://localhost:3000/api/employees/
+Content-Type: application/json
+
+{
+  "position": "Senior Developer",
+  "salary": 80000
+}
+
+### DELETE Employee
+DELETE http://localhost:3000/api/employees/
+
+
+
+ 
+
+ ### Products Area
+
+### GET All Products 
+GET http://localhost:3000/api/products
+
+### GET Single Product 
+GET http://localhost:3000/api/products/
+
+### POST Product 
+POST http://localhost:3000/api/products
+Content-Type: application/json
+
+# {
+#   "name": "New Product",
+#   "description": "Description for the new product",
+#   "price": 19.99,
+#   "category": "New Category",
+#   "manufacturer": "New Manufacturer",
+#   "inStock": true,
+#   "specifications": {
+#     "weight": 300,
+#     "dimensions": {
+#       "length": 8,
+#       "width": 4,
+#       "height": 10
+#     }
+#   },
+#   "expirationDate": "2023-12-31",
+#   "isFeatured": false
+# }
+
+### PUT Product 
+PUT http://localhost:3000/api/products/
+Content-Type: application/json
+
+# {
+#   "name": "Updated Product",
+#   "description": "Updated description for the product",
+#   "price": 24.99,
+#   "category": "Updated Category",
+#   "manufacturer": "Updated Manufacturer",
+#   "inStock": true,
+#   "specifications": {
+#     "weight": 350,
+#     "dimensions": {
+#       "length": 10,
+#       "width": 5,
+#       "height": 12
+#     }
+#   },
+#   "expirationDate": "2024-12-31",
+#   "isFeatured": true
+# }
+
+### DELETE Product 
+DELETE http://localhost:3000/api/products/65b3b6ac03e2262cd7dae2ce
