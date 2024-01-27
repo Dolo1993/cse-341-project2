@@ -5,12 +5,10 @@ const mongoose = require('mongoose');
 const employeeRoutes = require('./routes/employeeRoutes');
 const productRoutes = require('./routes/productRoutes');
 const indexView = require('./views/index');
- 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// MongoDB connection  
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
@@ -20,10 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1);
   });
 
-//   Express built-in middleware
 app.use(express.json());
-
-// Mount routes
 app.use('/api', employeeRoutes);
 app.use('/api', productRoutes);
 app.use('/', indexView);
