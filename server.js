@@ -1,27 +1,26 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const employeeRoutes = require('./routes/employeeRoutes');
 const productRoutes = require('./routes/productRoutes');
 const indexView = require('./views/index');
-
-// Use dotenv for environment variables
-require('dotenv').config();
+ 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// MongoDB connection setup with error handling
+// MongoDB connection  
 mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log('Connected to MongoDB');
-})
-.catch((error) => {
-  console.error('Error connecting to MongoDB:', error.message);
-  process.exit(1);
-});
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error.message);
+    process.exit(1);
+  });
 
-
-// Use Express built-in middleware for parsing JSON
+//   Express built-in middleware
 app.use(express.json());
 
 // Mount routes

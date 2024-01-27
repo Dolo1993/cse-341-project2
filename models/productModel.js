@@ -24,7 +24,6 @@ const productSchema = new mongoose.Schema({
       height: Number,
     },
   },
-  // Add more fields as needed for your project
   expirationDate: Date,
   isFeatured: {
     type: Boolean,
