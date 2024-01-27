@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ### DELETE Employee
-DELETE http://localhost:3000/api/employees/65b53586cf457e23a26e0ac5
+DELETE http://localhost:3000/api/employees/
 
 
 
