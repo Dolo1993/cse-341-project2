@@ -7,7 +7,7 @@ const productRoutes = require('./routes/productRoutes');
 const indexView = require('./views/index');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
