@@ -1,12 +1,15 @@
 /* Required statement area */
 require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const employeeRoutes = require('./routes/employeeRoutes');
 const productRoutes = require('./routes/productRoutes');
+const authRoutes = require('./routes/authRoutes');
 const indexView = require('./views/index');
 
 const app = express();
@@ -22,6 +25,32 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1);
   });
 
+// Session and Passport configuration
+app.use(express.json());
+app.use(session({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+ 
+
+// GitHub OAuth configuration
+passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  callbackURL: process.env.GITHUB_CALLBACK_URL,
+},
+function(accessToken, refreshToken, profile, done) {
+  
+  return done(null, profile);
+}));
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+
 // Swagger configuration
 const swaggerOptions = {
   definition: {
@@ -30,9 +59,9 @@ const swaggerOptions = {
       title: 'Project2',
       version: '1.0.0',
     },
-  }, 
-// my route files
-  apis: ['./routes/*.js'],  
+  },
+  // my route files
+  apis: ['./routes/*.js'],
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -42,6 +71,7 @@ app.use(express.json());
 app.use('/api', employeeRoutes);
 app.use('/api', productRoutes);
 app.use('/', indexView);
+app.use('/auth', authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
