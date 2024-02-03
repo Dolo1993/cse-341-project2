@@ -11,6 +11,7 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const productRoutes = require('./routes/productRoutes');
 const authRoutes = require('./routes/authRoutes');
 const indexView = require('./views/index');
+const MongoStore = require('connect-mongo');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -27,10 +28,18 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Session and Passport configuration
 app.use(express.json());
-app.use(session({ secret: process.env.SESSION_SECRET, resave: true, saveUninitialized: true }));
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    collection: 'sessions', // Specify the collection name for sessions
+    ttl: 14 * 24 * 60 * 60, // Time-to-live for sessions (in seconds), adjust as needed
+  }),
+}));
 app.use(passport.initialize());
 app.use(passport.session());
- 
 
 // GitHub OAuth configuration
 passport.use(new GitHubStrategy({
@@ -39,7 +48,6 @@ passport.use(new GitHubStrategy({
   callbackURL: process.env.GITHUB_CALLBACK_URL,
 },
 function(accessToken, refreshToken, profile, done) {
-  
   return done(null, profile);
 }));
 
@@ -67,7 +75,6 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(express.json());
 app.use('/api', employeeRoutes);
 app.use('/api', productRoutes);
 app.use('/', indexView);
