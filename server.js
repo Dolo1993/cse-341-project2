@@ -34,8 +34,8 @@ app.use(session({
   saveUninitialized: true,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
-    collection: 'sessions', // Specify the collection name for sessions
-    ttl: 14 * 24 * 60 * 60, // Time-to-live for sessions (in seconds), adjust as needed
+    collection: 'sessions',
+    ttl: 14 * 24 * 60 * 60, 
   }),
 }));
 app.use(passport.initialize());
